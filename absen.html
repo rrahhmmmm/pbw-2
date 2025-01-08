@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduConnect - Absensi</title>
+</head>
+<body style="margin: 0; font-family: Arial, sans-serif; background-color: #f8f8f8;">
+
+    <!-- Header -->
+    <div style="display: flex; align-items: center; justify-content: space-between; background: white; padding: 10px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        <div style="display: flex; align-items: center;">
+            <img src="src/image/Earth Globe.svg" alt="EduConnect Logo" style="width: 40px; height: 40px; margin-right: 10px;">
+            <h2 style="margin: 0; font-size: 20px; font-weight: bold;">EduConnect</h2>
+        </div>
+        <button onclick="window.location.href='home.html'" style="background: #d4b1ff; border: none; padding: 8px 15px; border-radius: 20px; font-size: 16px; cursor: pointer;">
+            ➤ Home
+        </button>
+    </div>
+
+    <!-- Container -->
+    <div style="display: flex; justify-content: center; align-items: center; height: 80vh; padding: 20px;">
+        <div style="display: flex; background: linear-gradient(135deg, #825EFF, #cd3fe6); padding: 30px; border-radius: 20px; align-items: center; width: 700px;">
+            
+            <!-- Form Absensi -->
+            <form action="upload.php" method="post" enctype="multipart/form-data" style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: 300px;">
+                <h2 style="text-align: center; margin-bottom: 20px;">ABSEN DULU BOS</h2>
+                <input type="text" name="nama" placeholder="Nama Lengkap" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 20px;" required>
+                <input type="text" name="npm" placeholder="NPM" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 20px;" required>
+
+                <!-- Input Tanggal -->
+                <label for="tanggal" style="display: block; margin-bottom: 10px; font-size: 14px; font-weight: bold;">Tanggal Absen:</label>
+                <input type="date" name="tanggal" id="tanggal" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 20px; margin-bottom: 10px;" required>
+
+                <!-- Pilihan Sakit / Izin -->
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                    <button type="button" onclick="pilihStatus('sakit')" id="btnSakit" style="flex: 1; margin-right: 5px; background: none; border: 1px solid #ccc; padding: 10px; border-radius: 20px;">Sakit</button>
+                    <button type="button" onclick="pilihStatus('izin')" id="btnIzin" style="flex: 1; margin-left: 5px; background: none; border: 1px solid #ccc; padding: 10px; border-radius: 20px;">Izin</button>
+                </div>
+                <input type="hidden" name="status" id="statusInput" value="">
+
+                <!-- Input File -->
+                <label for="fileUpload" style="display: block; margin-bottom: 10px; font-size: 14px; font-weight: bold;">BUKTI!!!</label>
+                <input type="file" name="file" id="fileUpload" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 10px;">
+                <p id="fileName" style="font-size: 12px; color: gray; margin-top: 5px;"></p>
+
+                <button type="submit" style="width: 100%; background: black; color: white; padding: 10px; border-radius: 20px; border: none; cursor: pointer;">Submit</button>
+            </form>
+
+            <!-- Gambar -->
+            <div style="position: absolute; right: 450px;">
+                <img src="src/image/chatgpt robot calling on phone.svg" alt="Absensi Icon" style="width: 200px;">
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        function pilihStatus(status) {
+            document.getElementById('statusInput').value = status;
+            document.getElementById('btnSakit').style.background = (status === 'sakit') ? '#d4b1ff' : 'none';
+            document.getElementById('btnIzin').style.background = (status === 'izin') ? '#d4b1ff' : 'none';
+        }
+
+        document.getElementById('fileUpload').addEventListener('change', function() {
+            document.getElementById('fileName').innerText = this.files[0] ? "File: " + this.files[0].name : "";
+        });
+
+        // Atur tanggal default ke hari ini
+        document.addEventListener("DOMContentLoaded", function() {
+            let today = new Date();
+            let formattedDate = today.toISOString().split('T')[0];
+            document.getElementById('tanggal').value = formattedDate;
+        });
+    </script>
+
+</body>
+</html>
