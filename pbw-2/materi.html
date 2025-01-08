@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduConnect - Materi Kuliah</title>
+</head>
+<body style="margin: 0; font-family: Arial, sans-serif; background-color: #f8f8f8;">
+
+    <!-- Header -->
+    <div style="display: flex; align-items: center; justify-content: space-between; background: white; padding: 10px 20px; border-bottom: 2px solid purple;">
+        <div style="display: flex; align-items: center;">
+            <img src="src/image/Earth Globe.svg" alt="EduConnect Logo" style="width: 40px; height: 40px; margin-right: 10px;">
+            <h2 style="margin: 0; font-size: 20px; font-weight: bold;">EduConnect</h2>
+        </div>
+        <button onclick="window.location.href='home.html'" style="background: #e4d1ff; border: none; padding: 8px 15px; border-radius: 20px; font-size: 16px; cursor: pointer;">
+            ➤ Home
+        </button>
+    </div>
+
+    <!-- Container -->
+    <div style="display: flex; padding: 20px;">
+
+        <!-- Bagian Kiri (Form Upload & Nama Matkul) -->
+        <div style="flex: 1; background: #eee9ff; padding: 20px; border-radius: 15px; text-align: center; margin-right: 20px; position: relative;">
+    
+            <!-- Tombol Navigasi Matkul (Kiri) -->
+            <button onclick="prevMatkul()" 
+                style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: white; border: none; padding: 5px 10px; border-radius: 50%; cursor: pointer;">
+                <img src="src/image/Arrow-3.svg" alt="">
+            </button>
+        
+            <!-- Nama Matkul -->
+            <h1 id="namaMatkul" style="font-size: 28px; font-weight: bold; display: inline-block; margin: 0 40px;">Nama Matkul</h1>
+        
+            <!-- Tombol Navigasi Matkul (Kanan) -->
+            <button onclick="nextMatkul()" 
+                style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: white; border: none; padding: 5px 10px; border-radius: 50%; cursor: pointer;">
+                <img src="src/image/Arrow-2.svg" alt="">
+            </button>
+        
+            <!-- Nama Dosen -->
+            <p id="namaDosen" style="margin: 10px 0 0;">Nama Dosen</p>
+        </div>
+        
+
+            <!-- Form Upload -->
+            <h3>Submit Materi</h3>
+            <form action="upload.php" method="post" enctype="multipart/form-data">
+                <input type="text" name="matkul" placeholder="Nama Matkul" required style="width: 90%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                <input type="text" name="judul" placeholder="Judul" required style="width: 90%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                <input type="file" name="file" required style="width: 90%; padding: 8px; margin-bottom: 10px;">
+                <button type="submit" style="background: black; color: white; padding: 10px; border-radius: 5px; border: none; cursor: pointer;">Upload</button>
+            </form>
+        </div>
+
+        <!-- Bagian Kanan (Daftar Materi) -->
+        <div style="flex: 2; background: purple; padding: 20px; border-radius: 15px; overflow-y: auto; height: 400px;">
+            <?php foreach ($materi_list as $materi): ?>
+                <div style="background: white; padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                    <p style="margin: 0; font-size: 18px;"><?= $materi['judul']; ?></p>
+                    <a href="download.php?file=<?= $materi['file_path']; ?>" style="background: #e4d1ff; padding: 8px 12px; border-radius: 10px; text-decoration: none;">Download</a>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        let matkulList = ["Matematika", "Pemrograman", "Manajemen"];
+        let dosenList = ["Dr. Andi", "Prof. Budi", "Dra. Siti"];
+        let indexMatkul = 0;
+
+        function updateMatkul() {
+            document.getElementById('namaMatkul').innerText = matkulList[indexMatkul];
+            document.getElementById('namaDosen').innerText = dosenList[indexMatkul];
+        }
+
+        function prevMatkul() {
+            indexMatkul = (indexMatkul - 1 + matkulList.length) % matkulList.length;
+            updateMatkul();
+        }
+
+        function nextMatkul() {
+            indexMatkul = (indexMatkul + 1) % matkulList.length;
+            updateMatkul();
+        }
+
+        updateMatkul();
+    </script>
+
+</body>
+</html>
